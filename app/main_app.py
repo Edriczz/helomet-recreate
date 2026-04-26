@@ -29,7 +29,7 @@ class PPEDetectorApp:
             sys.exit(1)
 
     def run(self):
-        cap = cv2.VideoCapture(self.config.CAM_INDEX)
+        cap = cv2.VideoCapture(2, cv2.CAP_V4L2)
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
         

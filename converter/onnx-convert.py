@@ -3,9 +3,9 @@ import shutil
 import os
 
 # --- KONFIGURASI ---
-INPUT_MODEL = "model/best.pt"  # <--- Ganti path ini sesuai lokasi file .pt Anda
-OUTPUT_NAME = "besthelomet_yolov8.onnx"         # Nama output yang diinginkan
-DEST_FOLDER = "model/"                          # Folder tujuan untuk build engine nanti
+INPUT_MODEL = "../model/best_helomet_v2.pt"  # <--- Ganti path ini sesuai lokasi file .pt Anda
+OUTPUT_NAME = "besthelomet_yolov8_v2.onnx"         # Nama output yang diinginkan
+DEST_FOLDER = "../model/"                          # Folder tujuan untuk build engine nanti
 
 def export_to_onnx():
     # 1. Cek apakah file ada
