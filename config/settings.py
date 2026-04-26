@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 class Config:
     def __init__(self):
-        load_dotenv()
+        load_dotenv(override=True)
         
         # --- PATHS ---
         self.ENGINE_PATH = os.getenv("MODEL_ENGINE_PATH", "model/besthelomet_yolov8_MX230.engine")
@@ -26,12 +26,15 @@ class Config:
         self.MQTT_PASS = os.getenv("MQTT_PASSWORD", "nodered")
         
         # --- CLASSES & COLORS ---
-        self.CATEGORIES = ["person", "boots", "helmet", "no_boots", "no_helmet", "no_vest", "vest"]
-        self.CLASS_TO_KEY = {0: "person", 2: "helmet", 4: "no_helmet", 6: "vest", 5: "no_vest"}
+        # Harus sesuai urutan: 0=helmet, 1=no_helmet, 2=no_vest, 3=vest
+        self.CATEGORIES = ["helmet", "no_helmet", "no_vest", "vest"]
+        self.CLASS_TO_KEY = {0: "helmet", 1: "no_helmet", 2: "no_vest", 3: "vest"}
         
+        # Penyesuaian warna (B, G, R) - Anda bisa mengubah warna ini sesuka hati
         self.COLORS = {
-            "person": (0, 255, 255),    "boots": (0, 255, 0),
-            "helmet": (200, 100, 50),   "no_boots": (0, 0, 255),
-            "no_helmet": (200, 100, 200),"no_vest": (251, 119, 60),
-            "vest": (235, 54, 120)
+            "helmet": (200, 100, 50),     # Biru agak gelap
+            "no_helmet": (0, 0, 255),     # Merah (Peringatan)
+            "no_vest": (251, 119, 60),    # Jingga/Orange
+            "vest": (0, 255, 0)           # Hijau (Aman)
         }
+        
