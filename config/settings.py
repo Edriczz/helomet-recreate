@@ -37,4 +37,5 @@ class Config:
             "no_vest": (251, 119, 60),    # Jingga/Orange
             "vest": (0, 255, 0)           # Hijau (Aman)
         }
+        self.STREAM_URL = os.getenv("STREAM_URL")
         
