@@ -18,25 +18,33 @@ class MQTTHandler:
         except Exception as e:
             print(f"⚠️ MQTT Failed: {e}")
 
-    def publish(self, detections):
+    # Tambahkan parameter metrics=None di sini
+    def publish(self, detections, metrics=None):
         if not self.connected: return
 
-        counts = {"person": 0, "helmet": 0, "no_helmet": 0, "vest": 0, "no_vest": 0, "security_level": "UNSAFE"}
+        # Gunakan nama variabel payload agar lebih representatif
+        payload = {"person": 0, "helmet": 0, "no_helmet": 0, "vest": 0, "no_vest": 0, "security_level": "UNSAFE"}
         
         for det in detections:
             cid = det['class_id']
             if cid in self.cfg.CLASS_TO_KEY:
                 key = self.cfg.CLASS_TO_KEY[cid]
-                counts[key] += 1
+                # Pastikan key ada di payload sebelum ditambah
+                if key in payload:
+                    payload[key] += 1
         
         # Logic Safety Level
-        if counts["person"] > 0:
-            if counts["no_helmet"] == 0 and counts["no_vest"] == 0:
-                 if counts["helmet"] > 0 and counts["vest"] > 0:
-                    counts["security_level"] = "SAFE"
+        if payload["person"] > 0:
+            if payload["no_helmet"] == 0 and payload["no_vest"] == 0:
+                 if payload["helmet"] > 0 and payload["vest"] > 0:
+                    payload["security_level"] = "SAFE"
+                    
+        # --- BLOK BARU: Masukkan metrik hardware ke MQTT ---
+        if metrics:
+            payload["system_status"] = metrics
         
         try:
-            self.client.publish(self.cfg.MQTT_TOPIC, json.dumps(counts))
+            self.client.publish(self.cfg.MQTT_TOPIC, json.dumps(payload))
         except Exception as e:
             print(f"MQTT Publish Error: {e}")
 
