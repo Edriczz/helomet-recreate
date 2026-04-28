@@ -156,23 +156,23 @@ class PPEDetectorApp:
                 # UBAH DISINI: Ganti last_metrics menjadi None
                 frame = self.visualizer.draw(frame, last_results, dw, dh, ratio, None)
                 
-                cv2.imshow("PPE Detection System", frame)
+                # cv2.imshow("PPE Detection System", frame)
                 if is_first_frame:
                     startup_time = time.time() - app_start_time
                     print(f"\n⏱️ [TENSORRT] Waktu Pemanasan (Time to First Frame): {startup_time:.2f} detik\n")
                     is_first_frame = False
                 
-                # try:
-                #     stream_pipe.stdin.write(frame.tobytes())
-                # except Exception:
-                #     pass
+                try:
+                    stream_pipe.stdin.write(frame.tobytes())
+                except Exception:
+                    pass
                 
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
+                # if cv2.waitKey(1) & 0xFF == ord('q'):
+                #     break
                     
         finally:
             cap.release()
-            cv2.destroyAllWindows()
+            # cv2.destroyAllWindows()
             self.mqtt.stop()
             if stream_pipe:
                 stream_pipe.stdin.close()
