@@ -1,0 +1,37 @@
+{"person": 0, "helmet": 1, "no_helmet": 0, "vest": 0, "no_vest": 0, "security_level": "UNSAFE", "system_status": {"Video FPS": "22.6", "Inference": "21.9 ms", "CPU Load": "59.4%", "RAM Use": "61.7%", "GPU Load": "38%", "VRAM Use": "24.6%"}}
+
+{"person": 0, "helmet": 0, "no_helmet": 1, "vest": 0, "no_vest": 1, "security_level": "UNSAFE", "system_status": {"Video FPS": "0.0", "Inference": "21.9 ms", "App CPU": "0.0%", "App RAM": "499.0 MB", "GPU Load": "0%", "VRAM Use": "645.7 MB"}}
+{"person": 0, "helmet": 0, "no_helmet": 1, "vest": 0, "no_vest": 0, "security_level": "UNSAFE", "system_status": {"Video FPS": "22.6", "Inference": "20.2 ms", "App CPU": "25.2%", "App RAM": "492.8 MB", "GPU Load": "65%", "VRAM Use": "642.9 MB"}}
+{"person": 0, "helmet": 0, "no_helmet": 1, "vest": 0, "no_vest": 1, "security_level": "UNSAFE", "system_status": {"Video FPS": "22.6", "Inference": "20.2 ms", "App CPU": "25.4%", "App RAM": "495.4 MB", "GPU Load": "61%", "VRAM Use": "526.9 MB"}}
+{"person": 0, "helmet": 0, "no_helmet": 1, "vest": 0, "no_vest": 0, "security_level": "UNSAFE", "system_status": {"Video FPS": "20.0", "Inference": "31.3 ms", "App CPU": "49.0%", "App RAM": "947.7 MB", "GPU Load": "67%", "VRAM Use": "575.7 MB"}}
+
+
+
+best_helomet_v2.pt validation metrics:
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 
+                   all       2090       6076      0.674      0.628      0.632      0.296
+                helmet        600        751      0.553      0.731      0.584      0.249
+             no_helmet       1247       2374      0.766      0.424      0.534      0.214
+               no_vest       1238       2059      0.758      0.504      0.608       0.25
+                  vest        767        892      0.618      0.852      0.804      0.471
+Speed: 2.4ms preprocess, 27.9ms inference, 0.0ms loss, 3.0ms postprocess per image
+Results saved to /mnt/Data/rico/tugas/Skip Semester 7/helomet-recreate/runs/detect/val-2
+✅ Evaluasi Selesai!
+mAP50    : 0.6325
+mAP50-95 : 0.2961
+
+
+
+besthelomet_yolov8_v2_MX230.engine (best_helomet_v2.pt quantized model) validation metrics:
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 
+                   all       2090       6076      0.664      0.662       0.66       0.33
+                helmet        600        751      0.515       0.78      0.614      0.272
+             no_helmet       1247       2374      0.778      0.423      0.544      0.237
+               no_vest       1238       2059      0.752      0.554      0.653      0.299
+                  vest        767        892      0.611       0.89      0.828      0.511
+Speed: 3.4ms preprocess, 22.3ms inference, 0.1ms loss, 4.7ms postprocess per image
+Results saved to /mnt/Data/rico/tugas/Skip Semester 7/helomet-recreate/runs/detect/val6
+✅ Evaluasi Selesai!
+mAP50    : 0.6597
+mAP50-95 : 0.3297
+

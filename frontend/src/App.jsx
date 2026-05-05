@@ -15,9 +15,6 @@ function App() {
           <h1 className="text-xl font-bold tracking-tight text-white">
             ⛑ Helomet Dashboard
           </h1>
-          <p className="text-xs text-gray-500 mt-0.5 font-mono">
-            {import.meta.env.VITE_MQTT_TOPIC}
-          </p>
         </div>
         <span className="text-xs text-gray-600 font-mono tabular-nums">
           {new Date().toLocaleString()}

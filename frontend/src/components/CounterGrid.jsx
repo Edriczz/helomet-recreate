@@ -2,13 +2,21 @@ import React from 'react'
 
 /**
  * Metric definition — maps telemetry keys to human-readable labels and icons.
+ * Optional `compute(telemetry)` overrides the key lookup for derived values.
  */
 const METRICS = [
-  { key: 'person',     label: 'Person',     icon: '🧍', alert: false },
+  // { key: 'person',     label: 'Person',     icon: '🧍', alert: false }, // not in telemetry payload
   { key: 'helmet',     label: 'Helmet',     icon: '⛑️',  alert: false },
   { key: 'no_helmet',  label: 'No Helmet',  icon: '🚫',  alert: true  },
   { key: 'vest',       label: 'Vest',       icon: '🦺',  alert: false },
   { key: 'no_vest',    label: 'No Vest',    icon: '🚫',  alert: true  },
+  {
+    key: 'violations',
+    label: 'Violations',
+    icon: '⚠️',
+    alert: true,
+    compute: (t) => (t.no_helmet ?? 0) + (t.no_vest ?? 0),
+  },
 ]
 
 /**
@@ -56,12 +64,12 @@ function CounterCard({ label, icon, value, isAlert }) {
 function CounterGrid({ telemetry }) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-      {METRICS.map(({ key, label, icon, alert }) => (
+      {METRICS.map(({ key, label, icon, alert, compute }) => (
         <CounterCard
           key={key}
           label={label}
           icon={icon}
-          value={telemetry[key] ?? 0}
+          value={compute ? compute(telemetry) : (telemetry[key] ?? 0)}
           isAlert={alert}
         />
       ))}
