@@ -25,10 +25,10 @@ AutoBackend.__init__ = patched_init
 
 def main():
     # File engine Anda
-    model_path = "model/besthelomet_yolov8_v2_MX230.engine"
+    model_path = "../backend/model/besthelomet_yolov8_v3_MX230.engine"
     
     # PERHATIAN: Pastikan path ini mengarah ke dataset VERSI LAMA (yang cuma 5 kelas!)
-    dataset_yaml = "Data/Helomet v2.1.v1i.yolov8/data.yaml" 
+    dataset_yaml = "../Data/Helomet v2.1.v1i.yolov8/data.yaml" 
     
     print(f"🚀 Memulai Evaluasi Akurasi untuk: {model_path}")
     model = YOLO(model_path, task='detect')
