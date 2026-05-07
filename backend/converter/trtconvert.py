@@ -2,8 +2,8 @@ import tensorrt as trt
 import os
 
 # PASTIKAN NAMA FILE ONNX SESUAI
-ONNX_FILE_PATH = "../model/besthelomet_yolov8_v2.onnx"
-ENGINE_FILE_PATH = "../model/besthelomet_yolov8_v2_MX230.engine"
+ONNX_FILE_PATH = "../model/besthelomet_yolov8_v3.onnx"
+ENGINE_FILE_PATH = "../model/besthelomet_yolov8_v3_MX230.engine"
 
 def build_engine():
     logger = trt.Logger(trt.Logger.WARNING)
