@@ -34,10 +34,11 @@ class MQTTHandler:
                     payload[key] += 1
         
         # Logic Safety Level
-        if payload["person"] > 0:
-            if payload["no_helmet"] == 0 and payload["no_vest"] == 0:
-                 if payload["helmet"] > 0 and payload["vest"] > 0:
-                    payload["security_level"] = "SAFE"
+        # SAFE = at least one helmet AND one vest detected, with no violations
+        has_ppe = payload["helmet"] > 0 and payload["vest"] > 0
+        no_violations = payload["no_helmet"] == 0 and payload["no_vest"] == 0
+        if has_ppe and no_violations:
+            payload["security_level"] = "SAFE"
                     
         # --- BLOK BARU: Masukkan metrik hardware ke MQTT ---
         if metrics:

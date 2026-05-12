@@ -40,23 +40,58 @@ class PPEDetectorApp:
         app_start_time = time.time()
         
         print("🚀 Initializing PPE Detector...")
-        cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
-        width, height = 640, 480 
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+        # Mengecek apakah input berupa angka (Webcam) atau teks (Video File / RTSP)
+        if isinstance(self.config.CAM_INDEX, int):
+            cap = cv2.VideoCapture(self.config.CAM_INDEX, cv2.CAP_V4L2)
+            # Jika pakai webcam fisik, kita bisa paksa resolusinya
+            cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+            cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        else:
+            # Jika pakai video (.mp4) atau RTSP, biarkan OpenCV membacanya secara natural
+            cap = cv2.VideoCapture(self.config.CAM_INDEX)
         
         if not cap.isOpened():
-            print("❌ Cannot open webcam.")
+            print("❌ Cannot open webcam or video file.")
             return
 
+        # 1. BACA FRAME PERTAMA UNTUK MENDAPATKAN UKURAN ASLI VIDEO DINAMIS
+        ret, first_frame = cap.read()
+        if not ret:
+            print("❌ Gagal membaca frame dari video sumber!")
+            return
+            
+        # Mengambil tinggi dan lebar dari video YouTube Shorts Anda secara otomatis
+        # Misalnya akan menjadi width=1080, height=1920
+        height, width = first_frame.shape[:2]
+        print(f"📐 Resolusi Video Terdeteksi: {width}x{height}")
+
         print(f"📡 Starting FFmpeg stream to: {self.config.STREAM_URL}")
+        
+        # 2. MASUKKAN KE COMMAND FFMPEG (Sekarang width dan height sudah dinamis!)
         ffmpeg_cmd = [
-            'ffmpeg', '-y', '-f', 'rawvideo', '-vcodec', 'rawvideo', '-pix_fmt', 'bgr24',
-            '-s', f"{width}x{height}", '-r', '30', '-i', '-', '-c:v', 'libx264',
-            '-preset', 'ultrafast', '-tune', 'zerolatency', '-b:v', '1M',
+            'ffmpeg', '-y', 
+            '-f', 'rawvideo', '-vcodec', 'rawvideo', '-pix_fmt', 'bgr24',
+            '-s', f"{width}x{height}", '-r', '30', '-i', '-', 
+            '-c:v', 'libx264',
+            '-preset', 'ultrafast',
+            '-tune', 'zerolatency',
+            '-pix_fmt', 'yuv420p',
+            '-profile:v', 'baseline',
+            '-g', '30',
+            '-b:v', '2M',
+            '-maxrate', '2.5M',
+            '-bufsize', '4M',
+            '-rtsp_transport', 'tcp',
             '-f', 'rtsp', self.config.STREAM_URL
         ]
         stream_pipe = subprocess.Popen(ffmpeg_cmd, stdin=subprocess.PIPE)
+
+        # Opsi: Karena kita sudah 'menarik' frame pertama dari video, kita bisa 
+        # langsung memasukkannya ke pipa agar awal videonya tidak terpotong 1 frame.
+        try:
+            stream_pipe.stdin.write(first_frame.tobytes())
+        except Exception as e:
+            print(f"Gagal mengirim frame pertama: {e}")
 
         print("🎥 Camera Started. Press 'Q' to exit.")
         

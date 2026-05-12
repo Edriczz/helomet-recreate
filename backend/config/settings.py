@@ -15,7 +15,15 @@ class Config:
         self.NMS_THRES = float(os.getenv("NMS_THRESHOLD", 0.45))
         
         # --- APP CONFIG ---
-        self.CAM_INDEX = int(os.getenv("WEBCAM_INDEX", 0))
+        # Membaca sumber kamera dari .env (bisa angka, bisa path video)
+        cam_source = os.getenv("WEBCAM_INDEX", "0")
+        
+        try:
+            # Coba jadikan integer (jika input berupa angka 0, 1, 2 untuk webcam)
+            self.CAM_INDEX = int(cam_source)
+        except ValueError:
+            # Jika gagal (karena berupa teks path video atau RTSP), biarkan sebagai string
+            self.CAM_INDEX = cam_source
         self.SKIP_FRAMES = int(os.getenv("PROCESS_EVERY_N_FRAMES", 5))
         
         # --- MQTT CONFIG ---
