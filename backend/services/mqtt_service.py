@@ -23,7 +23,7 @@ class MQTTHandler:
         if not self.connected: return
 
         # Gunakan nama variabel payload agar lebih representatif
-        payload = {"person": 0, "helmet": 0, "no_helmet": 0, "vest": 0, "no_vest": 0, "security_level": "UNSAFE"}
+        payload = {"helmet": 0, "no_helmet": 0, "vest": 0, "no_vest": 0, "security_level": "UNSAFE"}
         
         for det in detections:
             cid = det['class_id']
