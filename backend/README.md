@@ -45,11 +45,11 @@ WEBCAM_INDEX=0 # 0 for default webcam, or path to video file / RTSP URL
 PROCESS_EVERY_N_FRAMES=5 # Skip frames for performance
 
 # MQTT Settings
-MQTT_BROKER=broker.xdevelopment.my.id
-MQTT_PORT=1883
-MQTT_TOPIC=ai/telemetry
-MQTT_USER=nodered
-MQTT_PASSWORD=nodered
+MQTT_BROKER=
+MQTT_PORT=
+MQTT_TOPIC=
+MQTT_USER=
+MQTT_PASSWORD=
 
 # Stream Settings
 STREAM_URL=rtsp://localhost:8554/mystream
