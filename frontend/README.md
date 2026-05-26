@@ -1,16 +1,55 @@
-# React + Vite
+# Helomet Recreate Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend dashboard for the Helomet PPE Detection system. It is built using React, Vite, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The frontend connects to the system via MQTT to receive real-time telemetry data (FPS, CPU/GPU usage, memory) and detection results. It can also embed the RTSP stream (typically via a WebRTC or HLS proxy, or an iframe depending on the setup) to provide a live view of the detections.
 
-## React Compiler
+## Technologies Used
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 19**: UI Library.
+- **Vite**: Fast build tool and dev server.
+- **Tailwind CSS**: Utility-first CSS framework for styling.
+- **MQTT.js**: To subscribe to the telemetry topic broadcasted by the backend.
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Node.js (v18+ recommended)
+- npm or yarn
+
+## Installation
+
+1. Navigate to the frontend directory.
+2. Install the dependencies:
+```bash
+npm install
+```
+
+## Configuration
+
+Create a `.env` file in the `frontend` root to configure the MQTT connection and stream URL.
+
+```env
+VITE_MQTT_BROKER=ws://broker.xdevelopment.my.id:8083/mqtt
+VITE_MQTT_TOPIC=ai/telemetry
+VITE_MQTT_USER=nodered
+VITE_MQTT_PASSWORD=nodered
+```
+*(Note: Ensure you are using the WebSocket port for MQTT in the browser, typically 8083 or 9001).*
+
+## Running Locally
+
+Start the Vite development server:
+```bash
+npm run dev
+```
+The application will usually be available at `http://localhost:5173`.
+
+## Building for Production
+
+To build the optimized static files for production deployment:
+```bash
+npm run build
+```
+The output will be in the `dist` folder.
