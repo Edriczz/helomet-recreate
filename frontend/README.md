@@ -31,7 +31,7 @@ npm install
 Create a `.env` file in the `frontend` root to configure the MQTT connection and stream URL.
 
 ```env
-VITE_MQTT_BROKER=ws://broker.xdevelopment.my.id:8083/mqtt
+VITE_MQTT_BROKER=
 VITE_MQTT_TOPIC=ai/telemetry
 VITE_MQTT_USER=nodered
 VITE_MQTT_PASSWORD=nodered
